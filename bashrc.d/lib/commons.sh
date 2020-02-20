@@ -15,6 +15,10 @@ function mkd ()
   mkdir -p "$@" && eval cd "\"\$$#\"";
 }
 
+function abspath()
+{
+  echo $(cd $(dirname "$1"); pwd)/$(basename "$1")
+}
 
 function stripColors()
 {

@@ -9,8 +9,8 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ls='ls $COLOR_OPTIONS --group-directories-first --time-style="+%F %H:%M "'
-alias ll='ls $COLOR_OPTIONS -lahF'
-alias l='ls $COLOR_OPTIONS -laHF'
+alias ll='ls -lahF'
+alias l='ll'
 alias grep='grep -P $COLOR_OPTIONS'
 alias egrep='egrep $COLOR_OPTIONS'
 alias fgrep='fgrep $COLOR_OPTIONS'
