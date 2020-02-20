@@ -18,6 +18,7 @@ export PATH="${HOME}/bin${PATH:+:}$PATH"
 
 # Misc defaults
 export HISTCONTROL="erasedups:ignoreboth"
+export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:tree:ls:ll:l:df:du'
 export HISTSIZE=10000
 export PROMPT_DIRTRIM=0
 export USER_NAME=$(whoami)
