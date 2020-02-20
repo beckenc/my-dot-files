@@ -1,0 +1,84 @@
+# .bashrc
+
+echo "source bashrc"
+
+if [ -f /etc/profile ]; then
+    source /etc/profile
+fi
+
+# +-------------------------------------------------
+# | BashRC Config
+# +-------------------------------------------------
+
+# Bash configuration path
+export BASHRC_CONFIG=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
+
+# Add a local binary path for scripts
+export PATH="${HOME}/bin${PATH:+:}$PATH"
+
+# Misc defaults
+export HISTCONTROL="erasedups:ignoreboth"
+export HISTSIZE=10000
+export PROMPT_DIRTRIM=0
+export USER_NAME=$(whoami)
+export COLUMNS=$(tput cols)
+
+# Enable ANSI color escape
+export LESS=-R
+
+# Default Editor
+export EDITOR=vim
+
+# enable ccache for user builds
+export PATH="/usr/lib/ccache/bin${PATH:+:}$PATH"
+export CCACHE_DIR="${HOME}/.ccache"
+
+# for speeding up emerge
+export NUMCPUS=$(nproc)
+export NUMCPUSPLUSONE=$(( NUMCPUS + 1 ))
+export MAKEOPTS="-j${NUMCPUSPLUSONE} -l${NUMCPUS}"
+export EMERGE_DEFAULT_OPTS="--jobs=${NUMCPUSPLUSONE} --load-average=${NUMCPUS}"
+
+# +-------------------------------------------------
+# | Non-Interactive Shell
+# +-------------------------------------------------
+
+if [[ $- != *i* ]] ; then
+    # Shell is non-interactive.  Be done now!
+    return
+fi
+
+# +-------------------------------------------------
+# | Terminal Settings
+# +-------------------------------------------------
+
+if [ "$TERM" != 'linux' ]; then
+    # Set the default 256 color TERM
+    export TERM=xterm-256color
+fi
+
+# Disable XOFF (interrupt data flow)
+stty -ixoff
+
+# Disable XON (interrupt data flow)
+stty -ixon
+
+# +-------------------------------------------------
+# | Bash Settings
+# +-------------------------------------------------
+
+declare -A bashrcSettings
+if [ -f "${BASHRC_CONFIG}/settings.conf" ]; then
+    echo "source ${BASHRC_CONFIG}/settings.conf"
+    source "${BASHRC_CONFIG}/settings.conf"
+fi
+
+for FILE in "${!bashrcSettings[@]}"
+do
+    if [ "${bashrcSettings[$FILE]}" -eq 1 ]; then
+        echo "source ${BASHRC_CONFIG}/${FILE}.sh"
+        source "${BASHRC_CONFIG}/${FILE}.sh"
+    fi
+done
+
+
