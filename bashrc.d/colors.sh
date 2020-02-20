@@ -4,51 +4,42 @@
 # | Colors
 # +-------------------------------------------------
 
-txtblk='\e[0;30m' # Black - Regular
-txtred='\e[0;31m' # Red
-txtgrn='\e[0;32m' # Green
-txtylw='\e[0;33m' # Yellow
-txtblu='\e[0;34m' # Blue
-txtpur='\e[0;35m' # Purple
-txtcyn='\e[0;36m' # Cyan
-txtwht='\e[0;37m' # White
-bldblk='\e[1;30m' # Black - Bold
-bldred='\e[1;31m' # Red
-bldgrn='\e[1;32m' # Green
-bldylw='\e[1;33m' # Yellow
-bldblu='\e[1;34m' # Blue
-bldpur='\e[1;35m' # Purple
-bldcyn='\e[1;36m' # Cyan
-bldwht='\e[1;37m' # White
-unkblk='\e[4;30m' # Black - Underline
-undred='\e[4;31m' # Red
-undgrn='\e[4;32m' # Green
-undylw='\e[4;33m' # Yellow
-undblu='\e[4;34m' # Blue
-undpur='\e[4;35m' # Purple
-undcyn='\e[4;36m' # Cyan
-undwht='\e[4;37m' # White
-bakblk='\e[40m'   # Black - Background
-bakred='\e[41m'   # Red
-badgrn='\e[42m'   # Green
-bakylw='\e[43m'   # Yellow
-bakblu='\e[44m'   # Blue
-bakpur='\e[45m'   # Purple
-bakcyn='\e[46m'   # Cyan
-bakwht='\e[47m'   # White
-txtrst='\e[0m'    # Text Reset
+export txtblk='\e[0;30m' # Black - Regular
+export txtred='\e[0;31m' # Red
+export txtgrn='\e[0;32m' # Green
+export txtylw='\e[0;33m' # Yellow
+export txtblu='\e[0;34m' # Blue
+export txtpur='\e[0;35m' # Purple
+export txtcyn='\e[0;36m' # Cyan
+export txtwht='\e[0;37m' # White
+export bldblk='\e[1;30m' # Black - Bold
+export bldred='\e[1;31m' # Red
+export bldgrn='\e[1;32m' # Green
+export bldylw='\e[1;33m' # Yellow
+export bldblu='\e[1;34m' # Blue
+export bldpur='\e[1;35m' # Purple
+export bldcyn='\e[1;36m' # Cyan
+export bldwht='\e[1;37m' # White
+export unkblk='\e[4;30m' # Black - Underline
+export undred='\e[4;31m' # Red
+export undgrn='\e[4;32m' # Green
+export undylw='\e[4;33m' # Yellow
+export undblu='\e[4;34m' # Blue
+export undpur='\e[4;35m' # Purple
+export undcyn='\e[4;36m' # Cyan
+export undwht='\e[4;37m' # White
+export bakblk='\e[40m'   # Black - Background
+export bakred='\e[41m'   # Red
+export badgrn='\e[42m'   # Green
+export bakylw='\e[43m'   # Yellow
+export bakblu='\e[44m'   # Blue
+export bakpur='\e[45m'   # Purple
+export bakcyn='\e[46m'   # Cyan
+export bakwht='\e[47m'   # White
+export txtrst='\e[0m'    # Text Reset
 
 # Color programs output
 export COLOR_OPTIONS='--color=auto'
-
-# Color 'man' output
-export LESS_TERMCAP_mb=$'\e[0;33m'     # Start blink mode
-export LESS_TERMCAP_md=$'\e[0;33m'     # Start bold mode
-export LESS_TERMCAP_me=$'\e[0m'        # End bold/blink mode
-export LESS_TERMCAP_so=$'\e[01;44;33m' # Start standout mode
-export LESS_TERMCAP_se=$'\e[0m'        # End standout mode
-export LESS_TERMCAP_us=$'\e[0;34m'     # Start underlining
-export LESS_TERMCAP_ue=$'\e[0m'        # End underlining
 
 function print256Colors()
 {
