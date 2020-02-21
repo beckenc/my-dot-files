@@ -72,20 +72,14 @@ if ${use_color} ; then
       GIT_PS1_SHOWCOLORHINTS=true #works only with PROMPT_COMMAND
     fi
     if [[ ${EUID} == 0 ]] ; then
-#        PS1+='\[\033[01;31m\]\h\[\033[01;34m\] \w\[\033[01;33m\]'${PSGIT}'\[\033[01;34m\] \$\[\033[00m\] '
-        PROMPT_COMMAND='__git_ps1 "\[\033[01;31m\]\h\[\033[01;34m\] \w\[\033[00m\]" " \[\033[01;34m\]\$\[\033[00m\] "'
+        PS1+='\[\033[01;31m\]\h\[\033[01;34m\] \w\[\033[01;33m\]'${PSGIT}'\[\033[01;34m\] \$\[\033[00m\] '
 	else
-#        PS1+='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[01;33m\]'${PSGIT}'\[\033[01;34m\] \$\[\033[00m\] '
-        PROMPT_COMMAND='__git_ps1 "\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[00m\]" " \[\033[01;34m\]\$\[\033[00m\] "'
+        PS1+='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[01;33m\]'${PSGIT}'\[\033[01;34m\] \$\[\033[00m\] '
     fi
 else
 	# show root@ when we don't have colors
     PS1+='\u@\h \w \$ '
 fi
-
-for sh in /etc/bash/bashrc.d/* ; do
-	[[ -r ${sh} ]] && source "${sh}"
-done
 
 # Try to keep environment pollution down, EPA loves us.
 unset use_git_prompt use_color sh
