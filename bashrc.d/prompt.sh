@@ -69,7 +69,7 @@ if ${use_color} ; then
       GIT_PS1_SHOWUNTRACKEDFILES=true
       GIT_PS1_SHOWDIRTYSTATE=true
       GIT_PS1_SHOWSTASHSTATE=true
-      GIT_PS1_SHOWCOLORHINTS=true
+      GIT_PS1_SHOWCOLORHINTS=true #works only with PROMPT_COMMAND
     fi
     if [[ ${EUID} == 0 ]] ; then
 #        PS1+='\[\033[01;31m\]\h\[\033[01;34m\] \w\[\033[01;33m\]'${PSGIT}'\[\033[01;34m\] \$\[\033[00m\] '
@@ -80,7 +80,7 @@ if ${use_color} ; then
     fi
 else
 	# show root@ when we don't have colors
-	PS1+='\u@\h \w \$ '
+    PS1+='\u@\h \w \$ '
 fi
 
 for sh in /etc/bash/bashrc.d/* ; do
