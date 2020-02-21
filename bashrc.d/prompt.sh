@@ -7,64 +7,88 @@
 # If set, the value is executed as a command prior to issuing each primary prompt.
 PROMPT_COMMAND=
 
+# Add git support
+use_git_prompt=false
+if [[ -f "/usr/share/git/git-prompt.sh" ]]; then
+  source "/usr/share/git/git-prompt.sh"
+  use_git_prompt=true
+fi
+
+# Change the window title of X terminals
+case ${TERM} in
+	[aEkx]term*|rxvt*|gnome*|konsole*|interix)
+		PS1='\[\033]0;\u@\h:\w\007\]'
+		;;
+	screen*)
+		PS1='\[\033k\u@\h:\w\033\\\]'
+		;;
+	*)
+		unset PS1
+		;;
+esac
+
 # Set colorful PS1 only on colorful terminals.
 # dircolors --print-database uses its own built-in database
 # instead of using /etc/DIR_COLORS.  Try to use the external file
 # first to take advantage of user additions.
 # We run dircolors directly due to its changes in file syntax and
 # terminal name patching.
-function set_colorful_prompt()
-{
-  use_color=false
-  if type -P dircolors >/dev/null ; then
-    # Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
-    LS_COLORS=
-    if [[ -f ~/.dir_colors ]] ; then
-      eval "$(dircolors -b ~/.dir_colors)"
-    elif [[ -f /etc/DIR_COLORS ]] ; then
-      eval "$(dircolors -b /etc/DIR_COLORS)"
-    else
-      eval "$(dircolors -b)"
+use_color=false
+if type -P dircolors >/dev/null ; then
+	# Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
+	LS_COLORS=
+	if [[ -f ~/.dir_colors ]] ; then
+		eval "$(dircolors -b ~/.dir_colors)"
+	elif [[ -f /etc/DIR_COLORS ]] ; then
+		eval "$(dircolors -b /etc/DIR_COLORS)"
+	else
+		eval "$(dircolors -b)"
+	fi
+	# Note: We always evaluate the LS_COLORS setting even when it's the
+	# default.  If it isn't set, then `ls` will only colorize by default
+	# based on file attributes and ignore extensions (even the compiled
+	# in defaults of dircolors). #583814
+	if [[ -n ${LS_COLORS:+set} ]] ; then
+		use_color=true
+	else
+		# Delete it if it's empty as it's useless in that case.
+		unset LS_COLORS
+	fi
+else
+	# Some systems (e.g. BSD & embedded) don't typically come with
+	# dircolors so we need to hardcode some terminals in here.
+	case ${TERM} in
+	[aEkx]term*|rxvt*|gnome*|konsole*|screen|cons25|*color) use_color=true;;
+	esac
+fi
+
+if ${use_color} ; then
+    PSGIT=
+    if ${use_git_prompt}; then
+      PSGIT='$(__git_ps1)'
+      GIT_PS1_SHOWUNTRACKEDFILES=true
+      GIT_PS1_SHOWDIRTYSTATE=true
+      GIT_PS1_SHOWSTASHSTATE=true
+      GIT_PS1_SHOWCOLORHINTS=true
     fi
-
-    # Note: We always evaluate the LS_COLORS setting even when it's the
-    # default.  If it isn't set, then `ls` will only colorize by default
-    # based on file attributes and ignore extensions (even the compiled
-    # in defaults of dircolors). #583814
-    if [[ -n ${LS_COLORS:+set} ]] ; then
-      use_color=true
-    else
-      # Delete it if it's empty as it's useless in that case.
-      unset LS_COLORS
-    fi
-  else
-    # Some systems (e.g. BSD & embedded) don't typically come with
-    # dircolors so we need to hardcode some terminals in here.
-    case ${TERM} in
-      [aEkx]term*|rxvt*|gnome*|konsole*|screen|cons25|*color) use_color=true;;
-    esac
-  fi
-
-  if ${use_color} ; then
-    PROMPT_COMMAND+='RET=$?;'
-    RET_OUT='$(printf "\[$txtwht\][ret: %-3s]" $RET)'
-
     if [[ ${EUID} == 0 ]] ; then
-      PSL1=$'\n'"${RET_OUT} [\[${bldblu}\]\w\[${txtrst}\]]"
-      PSL2=$'\n'"\[${bldred}\]\u@\h \[${bldblu}\]\$\[${txtrst}\] "
-    else
-      PSL1=$'\n'"${RET_OUT} [\[${bldblu}\]\w\[${txtrst}\]]"
-      PSL2=$'\n'"\[${bldylw}\]\u@\h \[${bldblu}\]\$\[${txtrst}\] "
+#        PS1+='\[\033[01;31m\]\h\[\033[01;34m\] \w\[\033[01;33m\]'${PSGIT}'\[\033[01;34m\] \$\[\033[00m\] '
+        PROMPT_COMMAND='__git_ps1 "\[\033[01;31m\]\h\[\033[01;34m\] \w\[\033[00m\]" " \[\033[01;34m\]\$\[\033[00m\] "'
+	else
+#        PS1+='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[01;33m\]'${PSGIT}'\[\033[01;34m\] \$\[\033[00m\] '
+        PROMPT_COMMAND='__git_ps1 "\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[00m\]" " \[\033[01;34m\]\$\[\033[00m\] "'
     fi
-    PS1+=${PSL1}${PSL2}
-  else
-    # show root@ when we don't have colors
-    PS1+='\u@\h \w \$ '
-  fi
+else
+	# show root@ when we don't have colors
+	PS1+='\u@\h \w \$ '
+fi
 
-  # Try to keep environment pollution down, EPA loves us.
-  unset use_color
-}
+for sh in /etc/bash/bashrc.d/* ; do
+	[[ -r ${sh} ]] && source "${sh}"
+done
+
+# Try to keep environment pollution down, EPA loves us.
+unset use_git_prompt use_color sh
 
 # +-------------------------------------------------
 # | Binding Bash Events
@@ -99,8 +123,5 @@ function post_command() {
   # Do stuff.
   echo "Running post_command"
 }
-
-#set_colorful_prompt
-#trap 'pre_command' DEBUG
 #PROMPT_COMMAND+='post_command;'
 
