@@ -1,7 +1,5 @@
 # .bashrc
 
-echo "source bashrc"
-
 if [ -f /etc/profile ]; then
     source /etc/profile
 fi
@@ -70,14 +68,14 @@ stty -ixon
 
 declare -A bashrcSettings
 if [ -f "${BASHRC_CONFIG}/settings.conf" ]; then
-    echo "source ${BASHRC_CONFIG}/settings.conf"
+    #echo "source ${BASHRC_CONFIG}/settings.conf"
     source "${BASHRC_CONFIG}/settings.conf"
 fi
 
 for FILE in "${!bashrcSettings[@]}"
 do
     if [ "${bashrcSettings[$FILE]}" -eq 1 ]; then
-        echo "source ${BASHRC_CONFIG}/${FILE}.sh"
+        #echo "source ${BASHRC_CONFIG}/${FILE}.sh"
         source "${BASHRC_CONFIG}/${FILE}.sh"
     fi
 done
