@@ -6,7 +6,7 @@ echo 'Installing bash environment from '$DIR
 
 BASHRC="# .bashrc
 source ${DIR}/bashrc.d/bashrc
-[ -f "${DIR}"/my_bashrc ] && source "${DIR}"/my_bashrc"
+[ -f "${DIR}"/my_bashrc.sh ] && source "${DIR}"/my_bashrc.sh"
 
 if [ $# -eq 0 ]; then
     IFS=''
