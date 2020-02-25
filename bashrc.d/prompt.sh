@@ -3,15 +3,16 @@
 # +-------------------------------------------------
 # | Style Commandline Prompt
 # +-------------------------------------------------
-
 # If set, the value is executed as a command prior to issuing each primary prompt.
 PROMPT_COMMAND=
 
 # Add git support
-use_git_prompt=false
 if [[ -f "/usr/share/git/git-prompt.sh" ]]; then
   source "/usr/share/git/git-prompt.sh"
-  use_git_prompt=true
+  GIT_PS1_SHOWUNTRACKEDFILES=true
+  GIT_PS1_SHOWDIRTYSTATE=true
+  GIT_PS1_SHOWSTASHSTATE=true
+  GIT_PS1_SHOWCOLORHINTS=true #works only with PROMPT_COMMAND
 fi
 
 # Change the window title of X terminals
@@ -63,26 +64,30 @@ else
 fi
 
 if ${use_color} ; then
-    PSGIT=
-    if ${use_git_prompt}; then
-      PSGIT='$(__git_ps1)'
-      GIT_PS1_SHOWUNTRACKEDFILES=true
-      GIT_PS1_SHOWDIRTYSTATE=true
-      GIT_PS1_SHOWSTASHSTATE=true
-      GIT_PS1_SHOWCOLORHINTS=true #works only with PROMPT_COMMAND
-    fi
+    # user@host
     if [[ ${EUID} == 0 ]] ; then
-        PS1+='\[\033[01;31m\]\h\[\033[01;34m\] \w\[\033[01;33m\]'${PSGIT}'\[\033[01;34m\] \$\[\033[00m\] '
+        PS1+="\[${bldred}\]\h" # root user
 	else
-        PS1+='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w\[\033[01;33m\]'${PSGIT}'\[\033[01;34m\] \$\[\033[00m\] '
+        PS1+="\[${bldgrn}\]\u@\h" # normal user
     fi
+    # working directory
+    PS1+="  \[${txtblu}\]\w"
+    # total size of files
+    PS1+="  \[${txtpur}\]"'$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed "s/total //")'
+    # number of files
+    PS1+=' $(/bin/ls -A -1 | /usr/bin/wc -l)'
+    # git ps1
+    PS1+=" \[${txtcyn}\]"'$(__git_ps1)'
+    # next line propmpt
+    PS1+="\[${txtrst}\]\n\$ "
 else
 	# show root@ when we don't have colors
     PS1+='\u@\h \w \$ '
 fi
 
 # Try to keep environment pollution down, EPA loves us.
-unset use_git_prompt use_color sh
+unset use_color sh
+
 
 # +-------------------------------------------------
 # | Binding Bash Events
@@ -115,7 +120,7 @@ function post_command() {
   fi
 
   # Do stuff.
-  echo "Running post_command"
+  printf "\n"
 }
-#PROMPT_COMMAND+='post_command;'
+PROMPT_COMMAND+='post_command;'
 
