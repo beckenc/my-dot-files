@@ -4,7 +4,7 @@
 # | Style Commandline Prompt
 # +-------------------------------------------------
 # If set, the value is executed as a command prior to issuing each primary prompt.
-PROMPT_COMMAND=
+PROMPT_COMMAND='RET=$?;'
 
 # Add git support
 if [[ -f "/usr/share/git/git-prompt.sh" ]]; then
@@ -64,7 +64,9 @@ else
 fi
 
 if ${use_color} ; then
-    # user@host
+    # exit status of last function
+    PS1+="\[${bldred}\]"'$(echo ${RET_OUT})\n'
+    # user@hosts
     if [[ ${EUID} == 0 ]] ; then
         PS1+="\[${bldred}\]\h" # root user
 	else
@@ -119,8 +121,47 @@ function post_command() {
     return
   fi
 
-  # Do stuff.
-  printf "\n"
-}
-PROMPT_COMMAND+='post_command;'
+  # Show error exit code if there is one
+  if [[ ${RET} != 0 ]]; then
+    RET_OUT="Exit Code ${RET} ("
+    if [[ ${RET} == 1 ]]; then
+      RET_OUT+="General error"
+    elif [ ${RET} == 2 ]; then
+      RET_OUT+="Missing keyword, command, or permission problem"
+    elif [ ${RET} == 126 ]; then
+      RET_OUT+="Permission problem or command is not an executable"
+    elif [ ${RET} == 127 ]; then
+      RET_OUT+="Command not found"
+    elif [ ${RET} == 128 ]; then
+      RET_OUT+="Invalid argument to exit"
+    elif [ ${RET} == 129 ]; then
+      RET_OUT+="Fatal error signal 1"
+    elif [ ${RET} == 130 ]; then
+      RET_OUT+="Script terminated by Control-C"
+    elif [ ${RET} == 131 ]; then
+      RET_OUT+="Fatal error signal 3"
+    elif [ ${RET} == 132 ]; then
+      RET_OUT+="Fatal error signal 4"
+    elif [ ${RET} == 133 ]; then
+      RET_OUT+="Fatal error signal 5"
+    elif [ ${RET} == 134 ]; then
+      RET_OUT+="Fatal error signal 6"
+    elif [ ${RET} == 135 ]; then
+      RET_OUT+="Fatal error signal 7"
+    elif [ ${RET} == 136 ]; then
+      RET_OUT+="Fatal error signal 8"
+    elif [ ${RET} == 137 ]; then
+      RET_OUT+="Fatal error signal 9"
+    elif [ ${RET} -gt 255 ]; then
+      RET_OUT+="Exit status out of range"
+    else
+      RET_OUT+="Unknown error code"
+    fi
+    RET_OUT+=")"
+  else
+    RET_OUT=""
+  fi
 
+}
+# PROMPT_COMMAND+='post_command;'
+PROMPT_COMMAND+='post_command;'
