@@ -65,21 +65,21 @@ fi
 
 if ${use_color} ; then
     # exit status of last function
-    PS1+="\[${bldred}\]"'$(echo ${RET_OUT})\n'
+    PS1+="\[${txtred}\]"'$(echo ${RET_OUT})\n'
     # user@hosts
     if [[ ${EUID} == 0 ]] ; then
-        PS1+="\[${bldred}\]\h" # root user
+        PS1+="\[${bldred}\]\u\[${txtblu}\]@\[${txtred}\]\h" # root user
 	else
-        PS1+="\[${bldgrn}\]\u@\h" # normal user
+        PS1+="\[${bldgrn}\]\u\[${txtblu}\]@\[${txtgrn}\]\h" # normal user
     fi
     # working directory
-    PS1+="  \[${txtblu}\]\w"
+    PS1+="  \[${txtblu}\]"'$(pwd)'
     # total size of files
-    PS1+="  \[${txtpur}\]"'$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed "s/total //")'
+    PS1+="  \[${txtylw}\] "'$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed "s/total //")'
     # number of files
     PS1+=' $(/bin/ls -A -1 | /usr/bin/wc -l)'
     # git ps1
-    PS1+=" \[${txtcyn}\]"'$(__git_ps1)'
+    PS1+=" \[${txtpur}\]"'$(__git_ps1)'
     # next line propmpt
     PS1+="\[${txtrst}\]\n\$ "
 else
@@ -123,7 +123,7 @@ function post_command() {
 
   # Show error exit code if there is one
   if [[ ${RET} != 0 ]]; then
-    RET_OUT="Exit Code ${RET} ("
+    RET_OUT="[ exit status ${RET} "
     if [[ ${RET} == 1 ]]; then
       RET_OUT+="General error"
     elif [ ${RET} == 2 ]; then
@@ -157,7 +157,8 @@ function post_command() {
     else
       RET_OUT+="Unknown error code"
     fi
-    RET_OUT+=")"
+    RET_OUT+=" ]"
+    printf "\n"
   else
     RET_OUT=""
   fi
