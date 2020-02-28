@@ -7,7 +7,7 @@
 PROMPT_COMMAND='RET=$?;'
 
 # Add git support
-GIT_PS1=
+GIT_PS1=""
 if [[ -f "/usr/share/git/git-prompt.sh" ]]; then
   source "/usr/share/git/git-prompt.sh"
   GIT_PS1_SHOWUNTRACKEDFILES=true
