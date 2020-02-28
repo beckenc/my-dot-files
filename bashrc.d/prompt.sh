@@ -7,12 +7,14 @@
 PROMPT_COMMAND='RET=$?;'
 
 # Add git support
+GIT_PS1=
 if [[ -f "/usr/share/git/git-prompt.sh" ]]; then
   source "/usr/share/git/git-prompt.sh"
   GIT_PS1_SHOWUNTRACKEDFILES=true
   GIT_PS1_SHOWDIRTYSTATE=true
   GIT_PS1_SHOWSTASHSTATE=true
   GIT_PS1_SHOWCOLORHINTS=true #works only with PROMPT_COMMAND
+  GIT_PS1='$(__git_ps1)'
 fi
 
 # Change the window title of X terminals
@@ -75,11 +77,11 @@ if ${use_color} ; then
     # working directory
     PS1+="  \[${txtblu}\]"'$(pwd)'
     # total size of files
-    PS1+="  \[${txtylw}\] "'$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed "s/total //")'
+    PS1+="  \[${txtylw}\]"'$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed "s/total //")'
     # number of files
     PS1+=' $(/bin/ls -A -1 | /usr/bin/wc -l)'
     # git ps1
-    PS1+=" \[${txtpur}\]"'$(__git_ps1)'
+    PS1+=" \[${txtpur}\]"${GIT_PS1}
     # next line propmpt
     PS1+="\[${txtrst}\]\n\$ "
 else

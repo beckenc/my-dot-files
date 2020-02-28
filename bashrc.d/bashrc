@@ -24,6 +24,9 @@ export COLUMNS=$(tput cols)
 
 # Enable ANSI color escape
 export LESS=-R
+LESSOPEN="|lesspipe %s"
+LESS="-R -M --shift 5"
+
 
 # Default Editor
 export EDITOR=vim
