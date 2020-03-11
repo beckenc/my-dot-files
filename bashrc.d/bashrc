@@ -31,6 +31,9 @@ LESS="-R -M --shift 5"
 # Default Editor
 export EDITOR=vim
 
+# Default Man Pager
+export MANPAGER="vim -M +MANPAGER -c 'set noma nolist nonumber showtabline=1 cc=""' -"
+
 # enable ccache for user builds
 export PATH="/usr/lib/ccache/bin${PATH:+:}$PATH"
 export CCACHE_DIR="${HOME}/.ccache"
