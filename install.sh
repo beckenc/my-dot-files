@@ -1,37 +1,35 @@
 #!/bin/bash
-set -e
+set -ue
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 echo 'Installing bash environment from '$DIR
 
-BASHRC="# .bashrc
+BASHRC=$(cat << EOF
+# .bashrc
 source ${DIR}/bashrc.d/bashrc
-[ -f "${DIR}"/my_bashrc.sh ] && source "${DIR}"/my_bashrc.sh"
+[ -f "${DIR}"/my_bashrc.sh ] && source "${DIR}"/my_bashrc.sh
+EOF
+)
+
+
 
 if [ $# -eq 0 ]; then
-    IFS=''
-    echo $BASHRC > ~/.bashrc
-    unset IFS
+  USERS=$(id -un)
 elif [ $1 == "--all" ]; then
-    USERS=($(ls -l /home | awk '{if(NR>1)print $9}'))
-    for user in ${USERS[*]}; do
-        homepath=$(eval echo "~$user")
-        IFS=''
-        echo $BASHRC > ${homepath}/.bashrc
-        unset IFS
-        echo "Installed bash environment for user $user successfully! Enjoy :-)"
-    done
-    echo "Installed bash environment successfully! Enjoy :-)"
-    exit 0
+  USERS=$(getent passwd | grep /home | cut -d: -f1 | tr '\n' ' ')
 else
-    SELECTED_USERS=(${@:1})
-    echo "Selected users: ${SELECTED_USERS[@]}"
-    for user in ${SELECTED_USERS[@]}; do
-        homepath=$(eval echo "~$user")
-        IFS=''
-        echo $BASHRC > ${homepath}/.bashrc
-        unset IFS
-        echo "Installed bash environment for user $user successfully! Enjoy :-)"
-    done
-    exit 0
+  USERS=${@:1}
 fi
+
+echo "Selected users: $USERS"
+for USER in $USERS; do
+  user_home=$(eval echo "~$USER")
+  user_bashrc="${user_home}/.bashrc"
+
+  echo "$BASHRC" > "$user_bashrc" && chown ${USER}.${USER} "$user_bashrc" || exit 1
+  echo "Installed the bashrc environment for user '$USER' successfully! Enjoy :-)"
+done
+
+exit 0
+
+### EOF ###
