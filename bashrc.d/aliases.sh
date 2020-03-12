@@ -19,8 +19,10 @@ alias openports='netstat -anp --tcp --udp --inet --inet6 | tail -n +1 | sort'
 alias tree='tree -R'
 alias df='df -h'
 alias du='du -h'
-alias less='vimpager'
-alias zless='vimpager'
+if [[ -x /usr/bin/vimpager ]]; then
+  alias less='vimpager'
+  alias zless='vimpager'
+fi
 #alias swd="swd"
 #alias rwd="rwd"
 #alias cwd="source ~/bin/cwd"
