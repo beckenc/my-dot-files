@@ -53,23 +53,12 @@ function findTopLevelParentPid()
   fi
 }
 
-function finder()
-{
-  if [ "${1}" = "-svn" ]; then
-    shift
-    /usr/bin/find . -type f ! -path "*svn*" -exec grep -n -H --colour=auto -i "${@}" {} \;
-    return
-  fi
-
-  /usr/bin/find . -type f -exec grep -n -H --colour=auto -i "${@}" {} \;
-}
-
 # search source files recursive in the current tree
 function sgrep ()
 {
   if [ $# -ge 1 ] ; then
     # set -x
-    grep -Harn --include={*.[ch],*.[ch]pp,*.[ch]xx,*.mk} --exclude-dir={.svn,.git} "$@" ./
+    grep -Harn --include={*.[ch],*.[ch]pp,*.[ch]xx} --exclude-dir={.svn,.git} "$@" ./
     # set +x
   fi
 }

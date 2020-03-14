@@ -1,14 +1,16 @@
-# .bashrc
-
+# =============================================================================
+# File: .bashrc
+# Description: Main bash run command script
+# =============================================================================
 if [ -f /etc/profile ]; then
     source /etc/profile
 fi
 
-# +-------------------------------------------------
-# | BashRC Config
-# +-------------------------------------------------
+# =============================================================================
+# Bash Config
+# =============================================================================
 
-# Bash configuration path
+#Bash configuration path
 export BASHRC_CONFIG=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
 
 # Add a local binary path for scripts
@@ -19,14 +21,11 @@ export HISTCONTROL="erasedups:ignoreboth"
 export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:tree:ls:ll:l:df:du'
 export HISTSIZE=10000
 export PROMPT_DIRTRIM=0
-export USER_NAME=$(whoami)
-export COLUMNS=$(tput cols)
 
 # Enable ANSI color escape
 export LESS=-R
-LESSOPEN="|lesspipe %s"
-LESS="-R -M --shift 5"
-
+export LESSOPEN="|lesspipe %s"
+export LESS="-R -M --shift 5"
 
 # Default Editor
 export EDITOR=vim
@@ -44,20 +43,19 @@ export NUMCPUSPLUSONE=$(( NUMCPUS + 1 ))
 export MAKEOPTS="-j${NUMCPUSPLUSONE} -l${NUMCPUS}"
 export EMERGE_DEFAULT_OPTS="--jobs=${NUMCPUSPLUSONE} --load-average=${NUMCPUS}"
 
-# +-------------------------------------------------
-# | Non-Interactive Shell
-# +-------------------------------------------------
+# =============================================================================
+# Non-Interactive Shell
+# =============================================================================
 
 if [[ $- != *i* ]] ; then
     # Shell is non-interactive.  Be done now!
     return
 fi
 
-# +-------------------------------------------------
-# | Terminal Settings
-# +-------------------------------------------------
-
-if [ "$TERM" != 'linux' ]; then
+# =============================================================================
+# Terminal Settings
+# =============================================================================
+if [ "$TERM" != 'linux' ] && [ "$TERM" != 'screen' ]; then
     # Set the default 256 color TERM
     export TERM=xterm-256color
 fi
@@ -68,22 +66,41 @@ stty -ixoff
 # Disable XON (interrupt data flow)
 stty -ixon
 
-# +-------------------------------------------------
-# | Bash Settings
-# +-------------------------------------------------
+# =============================================================================
+# Bash Settings
+# =============================================================================
+declare -A bashrc_settings
 
-declare -A bashrcSettings
-if [ -f "${BASHRC_CONFIG}/settings.conf" ]; then
-    #echo "source ${BASHRC_CONFIG}/settings.conf"
-    source "${BASHRC_CONFIG}/settings.conf"
-fi
+bashrc_settings['addons']=1
+bashrc_settings['aliases']=1
+bashrc_settings['bindings']=1
+bashrc_settings['colors']=1
+bashrc_settings['completions']=1
+bashrc_settings['options']=1
+bashrc_settings['prompt']=1
 
-for FILE in "${!bashrcSettings[@]}"
+# Lib settings
+bashrc_settings['lib/archives']=1
+bashrc_settings['lib/commons']=1
+bashrc_settings['lib/datetime']=1
+bashrc_settings['lib/features']=1
+bashrc_settings['lib/files']=1
+bashrc_settings['lib/find']=1
+bashrc_settings['lib/openssl']=1
+bashrc_settings['lib/testing']=1
+
+# Lib devel settings
+bashrc_settings['lib/devel/commons']=1
+bashrc_settings['lib/devel/git']=1
+bashrc_settings['lib/devel/svn']=1
+bashrc_settings['lib/devel/watch']=1
+
+for FILE in "${!bashrc_settings[@]}"
 do
-    if [ "${bashrcSettings[$FILE]}" -eq 1 ]; then
+    # echo "source $FILE"
+    if [ "${bashrc_settings[$FILE]}" -eq 1 ]; then
         #echo "source ${BASHRC_CONFIG}/${FILE}.sh"
         source "${BASHRC_CONFIG}/${FILE}.sh"
     fi
 done
-
 
