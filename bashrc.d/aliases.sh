@@ -19,6 +19,9 @@ alias openports='netstat -anp --tcp --udp --inet --inet6 | tail -n +1 | sort'
 alias tree='tree -R'
 alias df='df -h'
 alias du='du -h'
+if [[ -x /usr/bin/colordiff ]]; then
+  alias diff='colordiff'
+fi
 if [[ -x /usr/bin/vimpager ]]; then
   alias less='vimpager'
   alias zless='vimpager'
