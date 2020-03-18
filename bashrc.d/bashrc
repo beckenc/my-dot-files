@@ -91,9 +91,9 @@ bashrc_settings['lib/testing']=1
 
 # Lib devel settings
 bashrc_settings['lib/devel/commons']=1
-bashrc_settings['lib/devel/git']=1
-bashrc_settings['lib/devel/svn']=1
-bashrc_settings['lib/devel/watch']=1
+bashrc_settings['lib/devel/git']=0
+bashrc_settings['lib/devel/svn']=0
+bashrc_settings['lib/devel/watch']=0
 
 for FILE in "${!bashrc_settings[@]}"
 do
