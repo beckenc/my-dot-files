@@ -35,12 +35,12 @@ if ${use_color} ; then
     PS1+="\[${txtred}\]"'$(echo ${RET_OUT})\n'
     # user@hosts
     if [[ ${EUID} == 0 ]] ; then
-        PS1+="\[${bldred}\]\u\[${txtcyn}\]@\[${txtred}\]\h" # root user
+        PS1+="\[${bldred}\]\u\[${txtblu}\]@\[${txtred}\]\h" # root user
     else
-        PS1+="\[${bldgrn}\]\u\[${txtcyn}\]@\[${txtgrn}\]\h" # normal user
+        PS1+="\[${bldgrn}\]\u\[${txtblu}\]@\[${txtgrn}\]\h" # normal user
     fi
     # working directory
-    PS1+="  \[${txtcyn}\]"'$(pwd)'
+    PS1+="  \[${txtblu}\]"'$(pwd)'
     # total size of files
     PS1+="  \[${txtylw}\]"'$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed "s/total //")'
     # number of files
