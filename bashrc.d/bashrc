@@ -66,6 +66,17 @@ stty -ixoff
 # Disable XON (interrupt data flow)
 stty -ixon
 
+if [ "$TERM" != 'screen' ] && [ "$SSH_CONNECTION" != "" ]; then
+  if [[ -x /usr/bin/screen ]]; then
+    /usr/bin/screen -S sshscreen -d -R
+#    /usr/bin/screen -X caption always "%{rw} * | %H * $LOGNAME | %{bw}%c %D | %{-}%-Lw%{rw}%50>%{rW}%n%f* %t %{-}%+Lw%<"
+    /usr/bin/screen -X caption always "[$LOGNAME@%H] | %S | %n:%t %W %=[%h]"
+  else
+    echo "Failed to setup screen. Package not found!"
+  fi
+fi
+
+
 # =============================================================================
 # Bash Settings
 # =============================================================================
