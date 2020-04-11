@@ -79,7 +79,7 @@ bashrc_settings['colors']=1
 bashrc_settings['completions']=1
 bashrc_settings['options']=1
 bashrc_settings['prompt']=1
-bashrc_settings['screen']=1
+bashrc_settings['screen']=0
 
 # Lib settings
 bashrc_settings['lib/archives']=1
