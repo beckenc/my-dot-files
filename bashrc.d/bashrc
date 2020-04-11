@@ -35,9 +35,11 @@ export MANPAGER="vim -M +MANPAGER -c 'set noma nolist nonumber showtabline=1 cc=
 
 # To enable the keyring for applications run through the terminal
 # https://wiki.archlinux.org/index.php/GNOME/Keyring#With_a_display_manager
-if [[ -z "$DESKTOP_SESSION" ]];then
-  eval $(gnome-keyring-daemon --start)
-  export SSH_AUTH_SOCK
+if [[ -x /usr/bin/gnome-keyring-daemon ]]; then
+  if [[ -z "$DESKTOP_SESSION" ]];then
+    eval $(/usr/bin/gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+  fi
 fi
 
 # enable ccache for user builds
