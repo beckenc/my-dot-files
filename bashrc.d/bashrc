@@ -33,15 +33,6 @@ export EDITOR=vim
 # Default Man Pager
 export MANPAGER="vim -M +MANPAGER -c 'set noma nolist nonumber showtabline=1 cc=""' -"
 
-# To enable the keyring for applications run through the terminal
-# https://wiki.archlinux.org/index.php/GNOME/Keyring#With_a_display_manager
-if [[ -x /usr/bin/gnome-keyring-daemon ]]; then
-  if [[ -z "$DESKTOP_SESSION" ]];then
-    eval $(/usr/bin/gnome-keyring-daemon --start)
-    export SSH_AUTH_SOCK
-  fi
-fi
-
 # enable ccache for user builds
 export PATH="/usr/lib/ccache/bin${PATH:+:}$PATH"
 export CCACHE_DIR="${HOME}/.ccache"
@@ -88,7 +79,7 @@ bashrc_settings['colors']=1
 bashrc_settings['completions']=1
 bashrc_settings['options']=1
 bashrc_settings['prompt']=1
-bashrc_settings['screen']=0
+bashrc_settings['screen']=1
 
 # Lib settings
 bashrc_settings['lib/archives']=1
