@@ -52,8 +52,8 @@ bind s split
 bindkey "^T" screen
 
 # switch windows with Shift+PgUp (prev) and Shift+PgDn (next)
-bindkey "^[[5;5~" prev
-bindkey "^[[6;5~" next
+bindkey "^[[6;5~" prev
+bindkey "^[[5;5~" next
 
 # close window using Ctrl+Shift+W
 bindkey "^W" kill
