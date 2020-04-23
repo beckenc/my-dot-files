@@ -45,8 +45,8 @@ tmux ls
 
     Create Window           : <Prefix> c
 
-    Next Window             : <Prefix> n
-    Previous Window         : <Prefix> p
+    Next Window             : <Prefix> n | <Prefix> Pageup
+    Previous Window         : <Prefix> p | <Prefix> Pagedown
 
     Swap Window Next        : <Prefix> <C-n>
     Swap Window Previous    : <Prefix> <C-p>
