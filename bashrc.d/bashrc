@@ -66,6 +66,25 @@ stty -ixoff
 # Disable XON (interrupt data flow)
 stty -ixon
 
+# =============================================================================
+# SSH Server configuration
+# =============================================================================
+# keyringdpath='/usr/bin/gnome-keyring-daemon'
+# if [ -x "$keyringdpath" ]; then
+#   sleep 2
+#   keyringd=$(basename -- "$keyringdpath")
+#   pid=$(pgrep -u "$USER" -f -- "$keyringd")
+#   if [ -z "$pid" ]; then
+#     read -rsp "gnome-keyring Password: " pass;
+#     echo -n "$pass" | $keyringdpath --login --daemonize
+#     echo ""
+#   else
+#     echo "$keyringd running, pid: $pid"
+#   fi
+
+#   eval "$($keyringdpath --start)"
+#   export SSH_AUTH_SOCK
+# fi
 
 # =============================================================================
 # Bash Settings
@@ -79,7 +98,7 @@ bashrc_settings['colors']=1
 bashrc_settings['completions']=1
 bashrc_settings['options']=1
 bashrc_settings['prompt']=1
-bashrc_settings['screen']=0
+bashrc_settings['sshscreen']=0
 
 # Lib settings
 bashrc_settings['lib/archives']=1
@@ -105,5 +124,4 @@ do
         source "${BASHRC_CONFIG}/${FILE}.sh"
     fi
 done
-
 

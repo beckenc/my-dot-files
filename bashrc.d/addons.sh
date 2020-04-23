@@ -11,6 +11,11 @@ function bashrc-update()
   fi
 }
 
+function screen-session()
+{
+    /usr/bin/screen -S ${USER}_screen -d -R -c ${BASHRC_CONFIG}/screenrc
+}
+
 function open()
 {
   for i in $@; do
