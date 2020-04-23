@@ -4,6 +4,7 @@ set -ue
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 echo 'Installing bash environment from '$DIR
 
+# ~/.bashrc
 BASHRC=$(cat << EOF
 # .bashrc
 source ${DIR}/bashrc.d/bashrc
@@ -11,6 +12,12 @@ source ${DIR}/bashrc.d/bashrc
 EOF
 )
 
+# ~/.tmux.conf
+TMUXCONF=$(cat << EOF
+# .tmux.conf
+source-file ${DIR}/tmux.d/tmux.conf
+EOF
+)
 
 
 if [ $# -eq 0 ]; then
@@ -25,9 +32,11 @@ echo "Selected users: $USERS"
 for USER in $USERS; do
   user_home=$(eval echo "~$USER")
   user_bashrc="${user_home}/.bashrc"
+  user_tmuxconf="${user_home}/.tmux.conf"
 
   echo "$BASHRC" > "$user_bashrc" && chown ${USER}.${USER} "$user_bashrc" || exit 1
-  echo "Installed the bashrc environment for user '$USER' successfully! Enjoy :-)"
+  echo "$TMUXCONF" > "$user_tmuxconf" && chown ${USER}.${USER} "$user_bashrc" || exit 2
+  echo "Installed the bashrc, tmux environment for user '$USER' successfully! Enjoy :-)"
 done
 
 exit 0
