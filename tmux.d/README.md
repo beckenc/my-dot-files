@@ -54,6 +54,9 @@ tmux ls
     Split Window (horzontal): <Prefix> -
     Split Window (vertical) : <Prefix> |
 
+    Rename Window           : <Prefix> ,
+    Kill Window             : <Prefix> &
+
 ### Panes
 
     Select Pane Up          : <Prefix> Up
