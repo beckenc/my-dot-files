@@ -3,7 +3,7 @@
 # Description: Main bash run command script
 # =============================================================================
 if [ -f /etc/profile ]; then
-    source /etc/profile
+  source /etc/profile
 fi
 
 # =============================================================================
@@ -115,11 +115,17 @@ bashrc_settings['lib/devel/git']=0
 bashrc_settings['lib/devel/svn']=0
 bashrc_settings['lib/devel/watch']=0
 
+if [ "${bashrc_settings['colors']}" -eq 1 ]; then
+  # some of the scripts have a ugly dependency to colors.sh
+  # so we need to source that first
+  source "${BASHRC_CONFIG}/colors.sh"
+fi
+
 for FILE in "${!bashrc_settings[@]}"
 do
     # echo "source $FILE"
     if [ "${bashrc_settings[$FILE]}" -eq 1 ]; then
-        #echo "source ${BASHRC_CONFIG}/${FILE}.sh"
+        # echo "source ${BASHRC_CONFIG}/${FILE}.sh"
         source "${BASHRC_CONFIG}/${FILE}.sh"
     fi
 done
