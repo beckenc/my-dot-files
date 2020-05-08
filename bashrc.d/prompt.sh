@@ -54,10 +54,6 @@ else
     PS1+='\u@\h \w \$ '
 fi
 
-# Try to keep environment pollution down, EPA loves us.
-unset use_color sh
-
-
 # +-------------------------------------------------
 # | Binding Bash Events
 # +-------------------------------------------------
