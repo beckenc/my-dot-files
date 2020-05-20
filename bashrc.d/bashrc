@@ -108,6 +108,7 @@ bashrc_settings['lib/files']=1
 bashrc_settings['lib/find']=1
 bashrc_settings['lib/openssl']=1
 bashrc_settings['lib/testing']=1
+bashrc_settings['lib/fzf']=1
 
 # Lib devel settings
 bashrc_settings['lib/devel/commons']=1
