@@ -8,7 +8,7 @@
 function ff()
 {
   if [ $# -ge 1 ] ; then
-    /usr/bin/find . -iname '*'"$@"'*' | grep -i "$@"
+    /usr/bin/find . -iname '*'"$@"'*'
   fi
 }
 
@@ -58,7 +58,7 @@ function sgrep ()
 {
   if [ $# -ge 1 ] ; then
     # set -x
-    grep -Harn --include={*.[ch],*.[ch]pp,*.[ch]xx} --exclude-dir={.svn,.git} "$@" ./
+    grep -Harn --include={*.[ch],*.[ch]pp,*.[ch]xx} --exclude-dir={.svn,.git,.o} "$@" ./
     # set +x
   fi
 }
@@ -68,7 +68,7 @@ function hgrep ()
 {
   if [ $# -ge 1 ] ; then
     # set -x
-    grep -Harn --exclude-dir={.svn,.git,html} "$@" ./
+    grep -Harn --exclude-dir={.svn,.git,html,.o} "$@" ./
     # set +x
   fi
 }
