@@ -16,6 +16,7 @@ EOF
 TMUXCONF=$(cat << EOF
 # .tmux.conf
 source-file ${DIR}/tmux.d/tmux.conf
+source-file ${DIR}/tmux.d/tmuxline.conf
 EOF
 )
 
