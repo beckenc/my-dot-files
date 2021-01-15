@@ -24,7 +24,11 @@ EOF
 if [ $# -eq 0 ]; then
   USERS=$(id -un)
 elif [ $1 == "--all" ]; then
-  USERS=$(getent passwd | grep /home | cut -d: -f1 | tr '\n' ' ')
+  if ! [ "$(id -u)" = 0 ]; then
+    echo "This script must be run as root"
+    exit 1
+  fi
+  USERS=$(getent passwd | grep /home | cut -d: -f1 | tr '\n' ' ' && id 0 -un)
 else
   USERS=${@:1}
 fi
