@@ -67,26 +67,6 @@ stty -ixoff
 stty -ixon
 
 # =============================================================================
-# SSH Server configuration
-# =============================================================================
-# keyringdpath='/usr/bin/gnome-keyring-daemon'
-# if [ -x "$keyringdpath" ]; then
-#   sleep 2
-#   keyringd=$(basename -- "$keyringdpath")
-#   pid=$(pgrep -u "$USER" -f -- "$keyringd")
-#   if [ -z "$pid" ]; then
-#     read -rsp "gnome-keyring Password: " pass;
-#     echo -n "$pass" | $keyringdpath --login --daemonize
-#     echo ""
-#   else
-#     echo "$keyringd running, pid: $pid"
-#   fi
-
-#   eval "$($keyringdpath --start)"
-#   export SSH_AUTH_SOCK
-# fi
-
-# =============================================================================
 # Bash Settings
 # =============================================================================
 declare -A bashrc_settings
