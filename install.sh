@@ -7,8 +7,6 @@ echo 'Installing bash environment from '$DIR
 # ~/.bashrc
 BASHRC=$(cat << EOF
 # .bashrc
-source ${DIR}/bashrc.d/bashrc
-[ -f "${DIR}"/my_bashrc.sh ] && source "${DIR}"/my_bashrc.sh
 # =============================================================================
 # Bash Settings
 # =============================================================================
@@ -39,19 +37,8 @@ bashrc_settings['lib/devel/git']=0
 bashrc_settings['lib/devel/svn']=0
 bashrc_settings['lib/devel/watch']=0
 
-if [ "\${bashrc_settings['colors']}" -eq 1 ]; then
-  # some of the scripts have a ugly dependency to colors.sh
-  # so we need to source that first
-  source "\${BASHRC_CONFIG}/colors.sh"
-fi
-for FILE in "\${!bashrc_settings[@]}"
-do
-    # echo "source \$FILE"
-    if [ "\${bashrc_settings[\$FILE]}" -eq 1 ]; then
-        # echo "source \${BASHRC_CONFIG}/\${FILE}.sh"
-        source "\${BASHRC_CONFIG}/\${FILE}.sh"
-    fi
-done
+source ${DIR}/bashrc.d/bashrc
+[ -f "${DIR}"/my_bashrc.sh ] && source "${DIR}"/my_bashrc.sh
 EOF
 )
 

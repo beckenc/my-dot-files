@@ -65,3 +65,23 @@ stty -ixoff
 
 # Disable XON (interrupt data flow)
 stty -ixon
+
+# =============================================================================
+# Bash Settings
+# =============================================================================
+declare -A bashrc_settings
+
+if [ "${bashrc_settings['colors']}" -eq 1 ]; then
+  # some of the scripts have a ugly dependency to colors.sh
+  # so we need to source that first
+  source "${BASHRC_CONFIG}/colors.sh"
+fi
+
+for FILE in "${!bashrc_settings[@]}"
+do
+    #echo "source $FILE"
+    if [ "${bashrc_settings[$FILE]}" -eq 1 ]; then
+        #echo "source ${BASHRC_CONFIG}/${FILE}.sh"
+        source "${BASHRC_CONFIG}/${FILE}.sh"
+    fi
+done
