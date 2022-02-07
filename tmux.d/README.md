@@ -28,6 +28,15 @@ tmux attach-session -t <session-name>
 tmux ls
 ```
 
+## Tmux Plugin Manager
+
+Installs and loads `tmux` plugins.
+
+### Installed Plugins
+
+    tmux-resurrect: Restore tmux environment after system restart
+    tmux-continuum: Continuous saving of tmux environment
+
 ## Cheat Sheet
 
 ### General
@@ -74,7 +83,6 @@ tmux ls
     Resize Pane Right       : <Prefix> <C-Right>
 
     Zoom Pane               : <Prefix> z
-    Synchronize Panes       : <Prefix> <C-s>
 
 ### List Sessions/Windows/Panes
 
@@ -82,4 +90,11 @@ tmux ls
     List Windows            : <Prefix> w
     List Panes              : <Prefix> q
 
+### Plugin Manager
 
+    Installs new plugins    : <Prefix> I
+    Updates plugin(s)       : <Prefix> U
+    Uninstall plugins not
+    on the plugin list      : <Prefix> <M-u>
+    Save session            : <Previx> <C-s>
+    Restore session         : <Previx> <C-r>

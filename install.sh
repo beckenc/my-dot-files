@@ -2,7 +2,10 @@
 set -ue
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-echo 'Installing bash environment from '$DIR
+DIR_BASHRC="${DIR}/bashrc.d"
+DIR_TMUX="${DIR}/tmux.d"
+
+echo "Installing bash environment from ${DIR}"
 
 # ~/.bashrc
 BASHRC=$(cat << EOF
@@ -29,7 +32,7 @@ bashrc_settings['lib/find']=1
 bashrc_settings['lib/openssl']=1
 bashrc_settings['lib/testing']=1
 bashrc_settings['lib/fzf']=1
-bashrc_settings['lib/gpg-ssh']=1
+bashrc_settings['lib/gpg-ssh']=0
 
 # Lib devel settings
 bashrc_settings['lib/devel/commons']=1
@@ -37,7 +40,7 @@ bashrc_settings['lib/devel/git']=0
 bashrc_settings['lib/devel/svn']=0
 bashrc_settings['lib/devel/watch']=0
 
-source ${DIR}/bashrc.d/bashrc
+source ${DIR_BASHRC}/bashrc
 [ -f "${DIR}"/my_bashrc.sh ] && source "${DIR}"/my_bashrc.sh
 EOF
 )
@@ -45,15 +48,18 @@ EOF
 # ~/.tmux.conf
 TMUXCONF=$(cat << EOF
 # .tmux.conf
-source-file ${DIR}/tmux.d/tmux.conf
-source-file ${DIR}/tmux.d/tmuxline.conf
+source-file ${DIR_TMUX}/tmux.conf
+source-file ${DIR_TMUX}/tmuxline.conf
 EOF
 )
 
 
+#
+# Install for selected users
+#
 if [ $# -eq 0 ]; then
   USERS=$(id -un)
-elif [ $1 == "--all" ]; then
+elif [ "$1" == "--all" ]; then
   if ! [ "$(id -u)" = 0 ]; then
     echo "This script must be run as root"
     exit 1
@@ -68,9 +74,21 @@ for USER in $USERS; do
   user_home=$(eval echo "~$USER")
   user_bashrc="${user_home}/.bashrc"
   user_tmuxconf="${user_home}/.tmux.conf"
+  user_tpm="${user_home}/.tmux/plugins/tpm"
 
   echo "$BASHRC" > "$user_bashrc" && chown ${USER}.${USER} "$user_bashrc" || exit 1
   echo "$TMUXCONF" > "$user_tmuxconf" && chown ${USER}.${USER} "$user_bashrc" || exit 2
+
+  # Install tmux plugin manager
+  if [ -d "${user_tpm}" ]; then
+    cd "${user_tpm}" || exit 1
+    git pull
+  else
+    mkdir -p "${user_tpm}" && chown ${USER}.${USER} "${user_home}/.tmux" -R || exit 1
+    cd "${user_tpm}" || exit 1
+    git clone "https://github.com/tmux-plugins/tpm" "${user_tpm}" || exit 1
+  fi
+
   echo "Installed the bashrc, tmux environment for user '$USER' successfully! Enjoy :-)"
 done
 
