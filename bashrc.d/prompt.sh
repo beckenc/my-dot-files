@@ -42,7 +42,8 @@ if ${use_color} ; then
         PS1+="\[${bldgrn}\]\u\[${txtblu}\]@\[${txtgrn}\]\h" # normal user
     fi
     # working directory
-    PS1+="  \[${txtblu}\]"'$(pwd)'
+#    PS1+="  \[${txtblu}\]"'$(pwd)'
+    PS1+="  \[${txtblu}\]"'\w'
     # total size of files
     PS1+="  \[${txtylw}\]"'$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed "s/total //")'
     # number of files
