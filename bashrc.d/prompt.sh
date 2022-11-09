@@ -10,6 +10,8 @@ PROMPT_COMMAND='RET=$?;'
 GIT_PS1=""
 if [[ -f "/usr/share/git/git-prompt.sh" ]]; then
   source "/usr/share/git/git-prompt.sh"
+fi
+if [ "$(type -t __git_ps1)" = 'function' ]; then
   export GIT_PS1_SHOWUNTRACKEDFILES=true
   export GIT_PS1_SHOWDIRTYSTATE=true
   export GIT_PS1_SHOWSTASHSTATE=true
