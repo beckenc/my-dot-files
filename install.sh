@@ -41,7 +41,7 @@ bashrc_settings['lib/devel/svn']=0
 bashrc_settings['lib/devel/watch']=0
 
 source ${DIR_BASHRC}/bashrc
-[ -f "${DIR}"/my_bashrc.sh ] && source "${DIR}"/my_bashrc.sh
+[ -f "./.bashrc2" ] && source "./.bashrc2"
 EOF
 )
 
@@ -76,15 +76,15 @@ for USER in $USERS; do
   user_tmuxconf="${user_home}/.tmux.conf"
   user_tpm="${user_home}/.tmux/plugins/tpm"
 
-  echo "$BASHRC" > "$user_bashrc" && chown ${USER}.${USER} "$user_bashrc" || exit 1
-  echo "$TMUXCONF" > "$user_tmuxconf" && chown ${USER}.${USER} "$user_bashrc" || exit 2
+  echo "$BASHRC" > "$user_bashrc" && chown ${USER} "$user_bashrc" || exit 1
+  echo "$TMUXCONF" > "$user_tmuxconf" && chown ${USER} "$user_tmuxconf" || exit 2
 
   # Install tmux plugin manager
   if [ -d "${user_tpm}" ]; then
     cd "${user_tpm}" || exit 1
     git pull
   else
-    mkdir -p "${user_tpm}" && chown ${USER}.${USER} "${user_home}/.tmux" -R || exit 1
+    mkdir -p "${user_tpm}" && chown ${USER} "${user_home}/.tmux" -R || exit 1
     cd "${user_tpm}" || exit 1
     git clone "https://github.com/tmux-plugins/tpm" "${user_tpm}" || exit 1
   fi

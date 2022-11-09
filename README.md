@@ -15,4 +15,4 @@ Naturally, `/opt/my-dot-files` can be any directory, as long as all the users sp
 
 ### How to include your own stuff?
 
-After you have installed the setup, you can create **my_bashrc** next to **install.sh** to fill in any configurations that are important for you. 
+After you have installed the setup, you can create *.bashrc2* in your home directory to fill in any configurations that are important for you. 
