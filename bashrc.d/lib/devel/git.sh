@@ -1,4 +1,7 @@
 #!/bin/bash
+if ! [ -x "$(command -v git)" ]; then
+  echo 'Warning: git is enabled, but not installed.' >&2
+fi
 
 # +-------------------------------------------------
 # | Development/Git Helper

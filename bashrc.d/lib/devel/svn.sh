@@ -1,4 +1,7 @@
 #!/bin/bash
+if ! [ -x "$(command -v svn)" ]; then
+  echo 'Warning: svn is enabled, but not installed.' >&2
+fi
 
 # +-------------------------------------------------
 # | Development/SVN Helper
