@@ -41,7 +41,7 @@ bashrc_settings['lib/devel/svn']=0
 bashrc_settings['lib/devel/watch']=0
 
 source ${DIR_BASHRC}/bashrc
-[ -f "./.bashrc2" ] && source "./.bashrc2"
+[ -f ~/.bashrc2 ] && source ~/.bashrc2
 EOF
 )
 
