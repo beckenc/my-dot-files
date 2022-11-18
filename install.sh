@@ -40,6 +40,7 @@ bashrc_settings['lib/devel/git']=0
 bashrc_settings['lib/devel/svn']=0
 bashrc_settings['lib/devel/watch']=0
 
+source ${DIR_TMUX}/tmux-bash-completion/completions/tmux
 source ${DIR_BASHRC}/bashrc
 [ -f ~/.bashrc2 ] && source ~/.bashrc2
 EOF
@@ -75,11 +76,13 @@ for USER in $USERS; do
   user_bashrc="${user_home}/.bashrc"
   user_tmuxconf="${user_home}/.tmux.conf"
   user_tpm="${user_home}/.tmux/plugins/tpm"
+  tmux_completion="${DIR_TMUX}/tmux-bash-completion"
 
   echo "$BASHRC" > "$user_bashrc" && chown ${USER} "$user_bashrc" || exit 1
   echo "$TMUXCONF" > "$user_tmuxconf" && chown ${USER} "$user_tmuxconf" || exit 2
 
   # Install tmux plugin manager
+  echo "install tmux plugin manager"
   if [ -d "${user_tpm}" ]; then
     cd "${user_tpm}" || exit 1
     git pull
@@ -87,6 +90,15 @@ for USER in $USERS; do
     mkdir -p "${user_tpm}" && chown ${USER} "${user_home}/.tmux" -R || exit 1
     cd "${user_tpm}" || exit 1
     git clone "https://github.com/tmux-plugins/tpm" "${user_tpm}" || exit 1
+  fi
+
+  # Install tmux bash completion
+  echo "install tmux-bash-completion"
+  if [ -d "$tmux_completion" ]; then
+    cd "$tmux_completion" || exit 1
+    git pull || exit 1
+  else
+    git clone "https://github.com/imomaliev/tmux-bash-completion.git" "${tmux_completion}" || exit 1
   fi
 
   echo "Installed the bashrc, tmux environment for user '$USER' successfully! Enjoy :-)"
