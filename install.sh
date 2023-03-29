@@ -78,8 +78,8 @@ for USER in $USERS; do
   user_tpm="${user_home}/.tmux/plugins/tpm"
   tmux_completion="${DIR_TMUX}/tmux-bash-completion"
 
-  echo "$BASHRC" > "$user_bashrc" && chown ${USER} "$user_bashrc" || exit 1
-  echo "$TMUXCONF" > "$user_tmuxconf" && chown ${USER} "$user_tmuxconf" || exit 2
+  echo "$BASHRC" > "$user_bashrc" && chown ${USER}:${USER} "$user_bashrc" || exit 1
+  echo "$TMUXCONF" > "$user_tmuxconf" && chown ${USER}:${USER} "$user_tmuxconf" || exit 2
 
   # Install tmux plugin manager
   echo "install tmux plugin manager"
@@ -87,9 +87,10 @@ for USER in $USERS; do
     cd "${user_tpm}" || exit 1
     git pull
   else
-    mkdir -p "${user_tpm}" && chown ${USER} "${user_home}/.tmux" -R || exit 1
+    mkdir -p "${user_tpm}"
     cd "${user_tpm}" || exit 1
     git clone "https://github.com/tmux-plugins/tpm" "${user_tpm}" || exit 1
+    chown -R ${USER}:${USER} "${user_home}/.tmux" || exit 2
   fi
 
   # Install tmux bash completion
