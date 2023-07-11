@@ -14,7 +14,7 @@ fi
 export BASHRC_CONFIG=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
 
 # Add a local binary path for scripts
-export PATH="${HOME}/bin${PATH:+:}$PATH"
+export PATH="${HOME}/bin:${HOME}/.local/bin${PATH:+:}$PATH"
 
 # Misc defaults
 export HISTCONTROL="erasedups:ignoreboth"
